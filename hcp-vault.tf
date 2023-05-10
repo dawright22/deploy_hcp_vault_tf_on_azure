@@ -10,8 +10,7 @@ terraform {
 
 provider "hcp" {
   # Configuration options
-  client_id     = "Y9cDGhRE0tZLn2b2cetjrWym04xfOJs1"
-  client_secret = "CXPpNC3cg-nwoeZH5C5xnyT_1O-NFRjyCOHC2hynVlsOrQreEX-LyPHzbBn9urEX"
+ 
 }
 provider "azurerm" {
   features {}
@@ -29,7 +28,7 @@ resource "azurerm_resource_group" "hcp-peering-rg" {
 }
 
 resource "azurerm_virtual_network" "vnet" {
-  name                = "dr-hcp-peering"
+  name                = "azure-hcp-peering"
   location            = azurerm_resource_group.hcp-peering-rg.location
   resource_group_name = azurerm_resource_group.hcp-peering-rg.name
 
@@ -43,7 +42,7 @@ resource "azuread_service_principal" "principal" {
 }
 
 resource "azurerm_role_definition" "definition" {
-  name  = "dr-peering-access"
+  name  = "azure-peering-access"
   scope = azurerm_virtual_network.vnet.id
 
   assignable_scopes = [
@@ -98,7 +97,6 @@ resource "hcp_azure_peering_connection" "peer" {
 data "hcp_azure_peering_connection" "peer" {
   hvn_link              = hcp_hvn.hvn.self_link
   peering_id            = hcp_azure_peering_connection.peer.peering_id
-  wait_for_active_state = true
 }
 
 // The route depends on the data source, rather than the resource, to ensure the peering is in an Active state.
