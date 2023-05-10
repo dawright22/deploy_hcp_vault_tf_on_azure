@@ -1,21 +1,3 @@
-# variable "resource_group_location" {
-#   description = "Location of the resource group."
-# }
-
-# variable "resource_group_name" {
-#   description = "Name of the resource group name that's combined with a random ID so name is unique in your Azure subscription."
-# }
-
-# variable "name" {
-#   description = "Name of the resources"
-# }
-
-# variable "Net-vm-ref-arch" {
-#   description = "The ID of the Vnet."
-#   type        = string
-  
-#}
-
 variable "hvn_id" {
   description = "The ID of the HCP HVN."
   type        = string
